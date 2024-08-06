@@ -15,13 +15,13 @@ public class AccountService {
         this.accountDAO = accountDAO;
     }
 
-    public boolean register(String username, String password) {
+    public Account userRegister(String username, String password) {
         if (username == null || username.isEmpty() || password == null || password.length() <= 4) {
-            return false;
+            return null;
         }
-        Account existingAccount = accountDAO.getAccountByUsername(username);
+        Account existingAccount = accountDAO.accountLogin(username);
         if (existingAccount != null) {
-            return false;
+            return null;
         }
         Account newAccount = new Account(username, password);
         return accountDAO.createAccount(newAccount);
@@ -31,7 +31,7 @@ public class AccountService {
         if (username == null || username.isEmpty() || password == null || password.isEmpty()) {
             return null;
         }
-        Account account = accountDAO.getAccountByUsername(username);
+        Account account = accountDAO.accountLogin(username);
         if (account != null && account.getPassword().equals(password)) {
             return account;
         }
